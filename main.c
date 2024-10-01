@@ -143,23 +143,35 @@ void corps (){
      reset();
   }
   reset();
-//  guirlandes();
+  guirlandes();
   boules();
 } 
 
-//A modifier
-//générer les bornes RAND_MIN et RAND_MAX
+//a améliorer
 void guirlandes(){
   for (int i=0;i<=hauteurBranches-1;i++){
-    y=y+10*i;
-    x=x-15-5*i;
-    if (i%5==1){
-      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
-        x=x+10;
-        changeColor( 241, 196, 15 );
-        drawSquare(350,100,20);
+    y=y-5+10*i;
+    x=x-10-5*i;
+    if (i>10 & i%5==1){
+      x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
+      for (int j=0;j<=25;j++){ //guirlande bleue longue
+        x=x+2;
+        changeColor(6, 12, 199);
+        drawSquare(x,y,4);
       }
-      reset();
+    }
+    reset();
+  }
+    for (int i=0;i<=hauteurBranches-1;i++){ //guirlande blanche
+    y=y+10*i;
+    x=x-10-5*i;
+    if (i>12 & i%5==1){
+      x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
+      for (int j=0;j<=35;j++){
+        x=x+2;
+        changeColor(225, 225, 230);
+        drawSquare(x,y,4);
+      }
     }
     reset();
   }
@@ -207,12 +219,11 @@ void boules (){
   }
 } 
 
-//option 1     x=x-15-5*i;
 void tronc(){
-  x=xOrigin-hauteurBranches*5;
+  x=xOrigin-hauteurBranches/5;
   y=yOrigin+hauteurBranches*10;
   for (int l=1;l<=hauteurTronc;l++){ //hauteur du tronc
-      y=y+(10*hauteurTronc)-10+10*l;
+      y=y+10
     for (int k=0;k<=hauteurBranches/10;k++){ //largeur du tronc
       x=x+10;
       changeColor (90,50,29);
@@ -221,32 +232,6 @@ void tronc(){
     reset();
   }
 }
-
-
-
-/*void pot(){
-  int largeur=hauteur*2; 
-    for (int i=0;i<=hauteurPot;i++){
-    y=yOrigin+(10*hauteur)+(hauteur/4)-10+10*i;
-    x=xOrigin-((largeur/10)/2)*10;
-    y=y+10*i;
-    x=x-15-5*i;
-    if (i==0){
-      for (int j=0;j<=(hauteur-(hauteur-i));j++){
-        x=x+10;
-        changeColor( 86, 101, 115 );
-        drawSquare (350,100,20);
-      }
-    }
-    else {
-      for (int j=(hauteur-(hauteur-i));j>=0;j--){
-        x=x+10;
-        changeColor(  91, 44, 111  );
-        drawSquare (350,100,20);
-      }    
-    }
-  }
-} */
 
 int arbre(){
   background();
