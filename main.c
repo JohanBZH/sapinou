@@ -22,7 +22,27 @@ int hauteur=100;
 int hauteurBranches;
 int hauteurTronc;
 int hauteurPot;
-  
+
+void background(){
+  int a=0;
+  int b=-10;
+  int red=3;
+  int green=20;
+  int blue=37;
+  for (int i=0;i<=100;i++){
+    b=b+10;
+    red=red+2.36;
+    green=green+1.12;
+    blue=blue-0.33;
+    for (int k=0;k<=100;k++){ //largeur du tronc
+      a=a+10;
+      changeColor (red,green,blue);
+      drawSquare (a,b,10);
+    }
+    a=-10;
+  }
+}
+
   //sous fonctions de l'arbre
 void appel (){
 //initialiser la variable de hauteur
@@ -233,6 +253,7 @@ void tronc(){
 } */
 
 int arbre(){
+  background();
   montagne();
   appel();
   corps();
