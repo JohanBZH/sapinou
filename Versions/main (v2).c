@@ -11,65 +11,43 @@
 // Dans l'ordre créer montagnes puis sapin puis décoration
 //usleep a la fin des boucles de chaque colonne pour faire une "construction"
 
-void background(){
-  int a=0;
-  int b=-10;
-  int red=3;
-  int green=20;
-  int blue=37;
-  for (int i=0;i<=100;i++){
-    b=b+10;
-    red=red+2.36;
-    green=green+1.12;
-    blue=blue-0.33;
-    for (int k=0;k<=100;k++){ //largeur du tronc
-      a=a+10;
-      changeColor (red,green,blue);
-      drawSquare (a,b,10);
-    }
-    a=-10;
-  }
+//position du carre dessiné dans drawGame()
+int x = 500;
+int y = 300;
+int xOrigin = 500;
+int yOrigin =300;
+
+//sous fonctions de l'arbre
+int hauteur;
+void appel (){
+//initialiser la variable de hauteur
+/*  printf("Indiquez la taille de votre sapin.");
+  scanf ("%d",&hauteur);*/
+  hauteur=50;
 }
 
+void reset(){
+  x=xOrigin;
+  y=yOrigin;
+}
+  
 void montagne(){
-  int y;
-  int x;
-  for (int i=0;i<=400;i++){
-    y=150+2*i;
-    x=500-i;
-      if (i<=100){
-        for (int j=0;j<=(400-(400-i));j++){
-            x=x+2;
-            changeColor ( 62, 74, 98 );
-            drawSquare (x,y,3);
-        }
-        reset();
-      }
-      else {
-        for (int j=0;j<=(400-(400-i));j++){
-          x=x+2;
-          changeColor ( 23, 32, 42 );
-          drawSquare (x,y,3);
-        }
-      }
-  } 
-  reset();
   for (int i=0;i<=400;i++){
     y=200+2*i;
     x=200-i;
       if (i<=100){
         for (int j=0;j<=(400-(400-i));j++){
             x=x+2;
-            changeColor (  86, 101, 115  );
-            drawSquare (x,y,3);
+            changeColor ( 204, 209, 209 );
+            drawSquare (x,y,2);
         }
         reset();
       }
       else {
         for (int j=0;j<=(400-(400-i));j++){
           x=x+2;
-          changeColor (33,47,61);
-          drawSquare (x,y,3);
+          changeColor (  52, 73, 94 );
+          drawSquare (x,y,2);
         }
       }
   } 
@@ -96,119 +74,98 @@ void montagne(){
   reset();
 }
 
-//position du haut du sapin principal
-int xOrigin = 600;
-int yOrigin = 500;
-int x;
-int y;
-
-void reset(){
-  x=xOrigin;
-  y=yOrigin;
-}
-
-//definir la hauteur totale de l'arbre et la taille de chaque élément de l'arbre
-int hauteur;
-int hauteurBranches;
-int hauteurTronc;
-int hauteurPot;
-
-  //sous fonctions de l'arbre
-void appel (){
-//initialiser la variable de hauteur
-/*  printf("Indiquez la taille de votre sapin.");
-  scanf ("%d",&hauteur);*/
-  hauteur=50;
-  hauteurBranches = hauteur*0.8;
-  hauteurTronc= hauteur*0.2;
-}
-
-//branches de l'arbre
+//option 1
 void corps (){   
-  for (int i=0;i<=hauteurBranches;i++){
+
+  for (int i=0;i<=hauteur-1;i++){
     y=y+10*i;
     x=x-15-5*i;
-      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+      for (int j=0;j<=(hauteur-(hauteur-i));j++){
         x=x+10;
-          if (x%3==0){
-          changeColor (22,116,30);
-          drawSquare (x,y,10);
-          }
-          else {
-          changeColor ( 30, 132, 73 );
-          drawSquare (x,y,10);
-          }
+        changeColor (22,116,30);
+        drawSquare (x,y,10);
       }
      reset();
   }
   reset();
-  guirlandes();
-  boules();
 } 
 
-//a améliorer
+//A modifier
+//générer les bornes RAND_MIN et RAND_MAX
+
 void guirlandes(){
-  for (int i=0;i<=hauteurBranches-1;i++){
-    y=y-5+10*i;
-    x=x-10-5*i;
-    if (i>10 & i%5==1){
-      x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
-      for (int j=0;j<=25;j++){ //guirlande bleue longue
-        x=x+2;
-        changeColor(6, 12, 199);
-        drawSquare(x,y,4);
-      }
-    }
-    reset();
-  }
-    for (int i=0;i<=hauteurBranches-1;i++){ //guirlande blanche
+  for (int i=0;i<=hauteur-1;i++){
     y=y+10*i;
-    x=x-10-5*i;
-    if (i>12 & i%3==1){
-      x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
-      for (int j=0;j<=35;j++){
-        x=x+2;
-        changeColor(225, 225, 230);
-        drawSquare(x,y,4);
+    x=x-15-5*i;
+    if (i%5==1){
+      for (int j=0;j<=(hauteur-(hauteur-i));j++){
+        x=x+10;
+        changeColor( 241, 196, 15 );
+        drawSquare(350,100,20);
       }
+      reset();
     }
     reset();
   }
 }
 
 void boules (){   
-  for (int i=0;i<=hauteurBranches+1;i++){
-    y=y-5+10*i;
-    x=x-10-5*i;
-    if (i%5==1){
-      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
-        x=x+10;
-        if (j==0) { //bougie côté gauche
-          changeColor (243,221,39);
-          drawCircle (x,y,5);
-        }
-        else if (j==(hauteurBranches-(hauteurBranches-i))){ //bougies côté droit
-          changeColor (243,221,39);
-          drawCircle (x,y,5);
-        }
-        else {
-        }
+
+for (int i=0;i<=hauteur-1;i++){
+  y=y+10*i;
+  x=x-15-5*i;
+  if (i%5==1){
+    for (int j=0;j<=(hauteur-(hauteur-i));j++){
+      x=x+10;
+      if (i==0){
+        changeColor(212,25,6);
+        drawCircle (x,y,100);
+      }
+      else if (j==0) {
+        changeColor (243,221,39);
+        drawCircle (x,y,20);
+      }
+      else {
       }
     }
+  }
+    else if (i%7==0){
+    for (int j=0;j<=(hauteur-(hauteur-i));j++){
+      x=x+10;
+      if (i==0){
+        changeColor(212,25,6);
+        drawCircle(350,100,20);
+      }
+      else if (j==0) {
+        changeColor (243,221,39);
+        drawCircle (x,y,20);
+      }
+      else {
+      }
+    }
+    }
     else {
-        for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+        for (int j=0;j<=(hauteur-(hauteur-i));j++){
         x=x+10;
-        if (j==0) {
-          changeColor (243,221,39); //bougies côté gauche
-          drawCircle (x,y,5);
+        if (i==0){
+          changeColor(212,25,6);
+          drawCircle(350,100,20);
         }
-        else if (j==(hauteurBranches-(hauteurBranches-i))){ //bougies côté droit
+        else if (j==0) {
           changeColor (243,221,39);
-          drawCircle (x,y,5);
+          drawCircle (x,y,20);
+        }
+        else if (j==(hauteur-(hauteur-i))){
+          changeColor (243,221,39);
+          drawCircle (x,y,20);
+        }
+        else if (rand()%20==0) {
+          changeColor (22,16,30);
+          drawCircle (x,y,12);
         }
         else if (rand()%20==1) {
           changeColor (220,11,60);
-          drawCircle (x,y,5);
+          drawCircle (x,y,12);
         }
         else {
         }
@@ -217,32 +174,62 @@ void boules (){
     reset();
   }
 } 
-//pb sur hauteurTronc
+
+//option 1
 void tronc(){
-  y=yOrigin+hauteurBranches*10;
-  for (int l=0;l<=(hauteurTronc);l++){ //hauteur du tronc
-    x=xOrigin-(hauteurTronc/10);    
-    y=y+10;
-    for (int k=0;k<=(hauteurTronc*0.3);k++){ //largeur du tronc
+  int largeur=hauteur*2;
+  reset();
+  for (int l=1;l<=hauteur/4;l++){ //hauteur du tronc
+      y=yOrigin+(10*hauteur)-10+10*l;
+      x=xOrigin-((largeur/10)/2)*10;
+    for (int k=0;k<=largeur/20;k++){ //largeur du tronc
       x=x+10;
       changeColor (90,50,29);
       drawSquare (x,y,10);
     }
+    reset();
   }
 }
 
-int arbre(){
-  background();
-  montagne();
-  appel();
-  corps();
-  tronc();
-}
 
+
+/*void pot(){
+  int largeur=hauteur*2; 
+    for (int i=0;i<=hauteur/4;i++){
+    y=yOrigin+(10*hauteur)+(hauteur/4)-10+10*i;
+    x=xOrigin-((largeur/10)/2)*10;
+    y=y+10*i;
+    x=x-15-5*i;
+    if (i==0){
+      for (int j=0;j<=(hauteur-(hauteur-i));j++){
+        x=x+10;
+        changeColor( 86, 101, 115 );
+        drawSquare (350,100,20);
+      }
+    }
+    else {
+      for (int j=(hauteur-(hauteur-i));j>=0;j--){
+        x=x+10;
+        changeColor(  91, 44, 111  );
+        drawSquare (350,100,20);
+      }    
+    }
+  }
+} */
+
+int arbre(){
+  appel();
+  montagne();
+  corps();
+ // guirlandes();
+ // boules();
+ tronc();
+//  pot ();
+ }
+ 
 void init_game(){
     //mettre votre code d'initialisation ici
 }
-
 
 void drawGame(){
     /* Ici je dessine mon jeu
@@ -252,7 +239,7 @@ void drawGame(){
     clear();
     arbre();
     actualize();
-    usleep(10000000 / FPS); // 60 images par seconde | 1000000 = 1 seconde
+    usleep(50000000 / FPS); // 60 images par seconde | 1000000 = 1 seconde
 }
 void KeyPressed(SDL_Keycode touche){
     /** @brief event.key.keysym.sym renvoi la touche appuyé
