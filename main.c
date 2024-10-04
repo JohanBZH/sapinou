@@ -97,7 +97,7 @@ void montagne(){
 }
 
 //position du haut du sapin principal
-int xOrigin = 600;
+int xOrigin = 650;
 int yOrigin = 500;
 int x;
 int y;
@@ -111,16 +111,29 @@ void reset(){
 int hauteur;
 int hauteurBranches;
 int hauteurTronc;
-int hauteurPot;
+
 
   //sous fonctions de l'arbre
 void appel (){
-//initialiser la variable de hauteur
-/*  printf("Indiquez la taille de votre sapin.");
-  scanf ("%d",&hauteur);*/
-  hauteur=50;
+  hauteur=0;
+  hauteurBranches=0;
+  hauteurTronc=0;
+  while (!(hauteur != 1 || hauteur != 2 || hauteur != 3));{
+    printf("Indiquez la taille de votre sapin : 1 pour petit, 2 pour moyen, 3 pour grand\n");
+    scanf ("%d",&hauteur);
+  }
+  if (hauteur==1){
+    hauteur=20;
+  }
+  else if (hauteur==2){
+    hauteur =35;
+  }
+  else {
+    hauteur=50;
+  }  
   hauteurBranches = hauteur*0.8;
-  hauteurTronc= hauteur*0.2;
+  hauteurTronc= hauteur*0.2;  
+  printf ("%d", hauteurTronc);
 }
 
 //branches de l'arbre
@@ -221,7 +234,7 @@ void boules (){
 void tronc(){
   y=yOrigin+hauteurBranches*10;
   for (int l=0;l<=(hauteurTronc);l++){ //hauteur du tronc
-    x=xOrigin-(hauteurTronc/10);    
+    x=xOrigin-(hauteurTronc*0.15);    
     y=y+10;
     for (int k=0;k<=(hauteurTronc*0.3);k++){ //largeur du tronc
       x=x+10;
@@ -234,7 +247,6 @@ void tronc(){
 int arbre(){
   background();
   montagne();
-  appel();
   corps();
   tronc();
 }
@@ -330,6 +342,7 @@ int main(){
      *  gameLoop() : boucle de jeu dans laquelle l'application reste ouverte
      *  freeAndTerminate() : quitte le programme proprement
      */
+    appel();
     init(WINDOW_WIDTH, WINDOW_HEIGHT);
     srand (time (NULL));
     init_game();
@@ -337,48 +350,3 @@ int main(){
     printf("Fin du programme\n");
     freeAndTerminate();
 }
-
-
-//option 2 du tronc
-/*void tronc(){
-  int largeur=hauteur*2;
-  reset();
-  for (int l=1;l<=hauteur/4;l++){ //hauteur du tronc
-      y=yOrigin+(10*hauteur)-10+10*l;
-    for (int k=0;k<=largeur/20;k++){ //largeur du tronc
-      x=x-10;
-      changeColor (90,50,29);
-      drawSquare (x,y,10);
-    }
-    reset();
-    y=yOrigin+(10*hauteur)-10+10*l;
-    x=x-10;
-    for (int k=0;k<=largeur/20;k++){ //largeur du tronc
-    x=x+10;
-    changeColor (90,50,29);
-    drawSquare (x,y,10);
-    }
-    reset();
-  }
-} */
-
-//option 2 des branches
-/* void branches (){   
-
-  for (int i=0;i<=hauteur-1;i++){
-    y=y+10*i;
-    for (int j=0;j<=(hauteur-(hauteur-i));j++){
-      x=x-5;
-      changeColor (22,116,30);
-      drawSquare (x,y,10);    
-    }
-    reset();
-    y=y+10*i;
-    x=x-10;
-    for (int j=0;j<=(hauteur-(hauteur-i));j++){
-    x=x+5;
-    drawSquare (x,y,10);
-    }
-    reset();
-  }
-} */

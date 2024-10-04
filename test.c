@@ -12,9 +12,8 @@ int main (){
 //initialiser la variable de hauteur
 /*  printf("Indiquez la taille de votre sapin.");
   scanf ("%d",&hauteur);*/
-  printf ("Test");
   hauteur=50;
-  hauteurBranches = hauteur*0.7;
-  
-  printf (hauteurBranches);
+  hauteurBranches = hauteur*0.8;
+  hauteurTronc= hauteur*0.2;
+  printf("%d hauteur", hauteur, "%d branches", hauteurBranches, "%d tronc", hauteurTronc);
 }
