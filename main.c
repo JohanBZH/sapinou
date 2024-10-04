@@ -108,6 +108,7 @@ void reset(){
 }
 
 //definir la hauteur totale de l'arbre et la taille de chaque élément de l'arbre
+//Attention, hauteur sera utilisé pour représenter le nombre de rangs du sapin. C'est donc différent du nb de pixel (pour le calcul de la modification des coordonnées)
 int hauteur;
 int hauteurBranches;
 int hauteurTronc;
@@ -123,7 +124,7 @@ void appel (){
     scanf ("%d",&hauteur);
   }
   if (hauteur==1){
-    hauteur=20;
+    hauteur=10;
   }
   else if (hauteur==2){
     hauteur =35;
@@ -132,8 +133,7 @@ void appel (){
     hauteur=50;
   }  
   hauteurBranches = hauteur*0.8;
-  hauteurTronc= hauteur*0.2;  
-  printf ("%d", hauteurTronc);
+  hauteurTronc= hauteur*0.2;
 }
 
 //branches de l'arbre
@@ -156,7 +156,9 @@ void corps (){
   }
   reset();
   guirlandes();
-  boules();
+  bougies();
+  boulesRouges();
+  boulesOranges();
 } 
 
 //a améliorer
@@ -166,8 +168,8 @@ void guirlandes(){
     x=x-10-5*i;
     if (i>10 & i%5==1){
       x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
-      for (int j=0;j<=25;j++){ //guirlande bleue longue
-        x=x+2;
+      for (int j=0;j<=10;j++){ //guirlande bleue longue
+        x=x+4;
         changeColor(6, 12, 199);
         drawSquare(x,y,4);
       }
@@ -177,10 +179,10 @@ void guirlandes(){
     for (int i=0;i<=hauteurBranches-1;i++){ //guirlande blanche
     y=y+10*i;
     x=x-10-5*i;
-    if (i>12 & i%3==1){
+    if (i>20 & i%3==1){
       x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
-      for (int j=0;j<=35;j++){
-        x=x+2;
+      for (int j=0;j<=20;j++){
+        x=x+4;
         changeColor(225, 225, 230);
         drawSquare(x,y,4);
       }
@@ -189,7 +191,7 @@ void guirlandes(){
   }
 }
 
-void boules (){   
+void bougies (){   
   for (int i=0;i<=hauteurBranches+1;i++){
     y=y-5+10*i;
     x=x-10-5*i;
@@ -219,8 +221,42 @@ void boules (){
           changeColor (243,221,39);
           drawCircle (x,y,5);
         }
-        else if (rand()%20==1) {
+        else {
+        }
+      }
+    }
+    reset();
+  }
+} 
+
+void boulesRouges (){   
+  for (int i=0;i<=hauteurBranches+1;i++){
+    y=y-5+10*i;
+    x=x-10-5*i;
+    if (i%5==1){
+      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+        x=x+10;
+        if (rand()%15==1) {
           changeColor (220,11,60);
+          drawCircle (x,y,5);
+        }
+        else {
+        }
+      }
+    }
+    reset();
+  }
+} 
+
+void boulesOranges (){   
+  for (int i=0;i<=hauteurBranches+1;i++){
+    y=y-5+10*i;
+    x=x-10-5*i;
+    if (i%3==1){
+      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+        x=x+10;
+        if (rand()%15==1) {
+          changeColor (225,128,0);
           drawCircle (x,y,5);
         }
         else {
@@ -234,7 +270,7 @@ void boules (){
 void tronc(){
   y=yOrigin+hauteurBranches*10;
   for (int l=0;l<=(hauteurTronc);l++){ //hauteur du tronc
-    x=xOrigin-(hauteurTronc*0.15);    
+    x=xOrigin-5-(hauteurTronc*10*0.3); // pour passer du nb de rang à la position de x en pixel, prendre en compte la largeur du carré (10px). Pour prendre en compte le fait d'aligner autour de xOrigin à partir de coordonnées dans le coin en haut gauche du carré : -5 soit 1/2 carré
     y=y+10;
     for (int k=0;k<=(hauteurTronc*0.3);k++){ //largeur du tronc
       x=x+10;
