@@ -159,6 +159,7 @@ void corps (){
   bougies();
   boulesRouges();
   boulesOranges();
+  drapeau();
 } 
 
 //a améliorer
@@ -266,11 +267,15 @@ void boulesOranges (){
     reset();
   }
 } 
-//pb sur hauteurTronc
+
+void drapeau(){
+  sprite (xOrigin-15,yOrigin-15, "snowflake.bmp");
+}
+
 void tronc(){
   y=yOrigin+hauteurBranches*10;
   for (int l=0;l<=(hauteurTronc);l++){ //hauteur du tronc
-    x=xOrigin-5-(hauteurTronc*10*0.3); // pour passer du nb de rang à la position de x en pixel, prendre en compte la largeur du carré (10px). Pour prendre en compte le fait d'aligner autour de xOrigin à partir de coordonnées dans le coin en haut gauche du carré : -5 soit 1/2 carré
+    x=xOrigin-5-(hauteurTronc*10*0.3); // pour passer du nb de rang à la position de x en pixel, prendre en compte la largeur du carré (10px). Pour prendre en compte le fait d'aligner autour de xOrigin à partir de coordonnées dans le coin en haut gauche du carré : -5px soit 1/2 carré
     y=y+10;
     for (int k=0;k<=(hauteurTronc*0.3);k++){ //largeur du tronc
       x=x+10;
