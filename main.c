@@ -8,6 +8,9 @@
 #define WINDOW_HEIGHT 1000
 #define FPS 60
 
+// pour compiler : gcc main.c function.c -o main.out -lSDL2main -lSDL2
+// pour lancer ./main.out
+
 // Dans l'ordre créer montagnes puis sapin puis décoration
 //usleep a la fin des boucles de chaque colonne pour faire une "construction"
 
@@ -102,13 +105,14 @@ int yOrigin = 500;
 int x;
 int y;
 
+//reset le haut du sapin pour ne pas avoir de décalage à chaque boucle du jeu
 void reset(){
   x=xOrigin;
   y=yOrigin;
 }
 
 //definir la hauteur totale de l'arbre et la taille de chaque élément de l'arbre
-//Attention, hauteur sera utilisé pour représenter le nombre de rangs du sapin. C'est donc différent du nb de pixel (pour le calcul de la modification des coordonnées)
+//Attention, hauteur sera utilisé pour représenter le nombre de rangs du sapin. C'est donc différent du nb de pixel (pour le calcul de la modification des coordonnées).
 int hauteur;
 int hauteurBranches;
 int hauteurTronc;
@@ -119,21 +123,21 @@ void appel (){
   hauteur=0;
   hauteurBranches=0;
   hauteurTronc=0;
-  while (!(hauteur != 1 || hauteur != 2 || hauteur != 3));{
-    printf("Indiquez la taille de votre sapin : 1 pour petit, 2 pour moyen, 3 pour grand\n");
-    scanf ("%d",&hauteur);
-  }
-  if (hauteur==1){
-    hauteur=10;
-  }
-  else if (hauteur==2){
-    hauteur =35;
-  }
-  else {
-    hauteur=50;
-  }  
-  hauteurBranches = hauteur*0.8;
-  hauteurTronc= hauteur*0.2;
+    do {
+      printf("Indiquez la taille de votre sapin : 1 pour petit, 2 pour moyen, 3 pour grand\n");
+      scanf ("%d",&hauteur);
+      } while (hauteur != 1 && hauteur != 2 && hauteur != 3);
+    if (hauteur==1){
+      hauteur=10;
+    }
+    else if (hauteur==2){
+      hauteur =35;
+    }
+    else {
+      hauteur=50;
+    }  
+    hauteurBranches = hauteur*0.8;
+    hauteurTronc= hauteur*0.2;
 }
 
 //branches de l'arbre
