@@ -14,6 +14,24 @@
 // Dans l'ordre créer montagnes puis sapin puis décoration
 //usleep a la fin des boucles de chaque colonne pour faire une "construction"
 
+//position du haut du sapin principal
+int xOrigin = 650;
+int yOrigin = 500;
+int x;
+int y;
+
+//definir la hauteur totale de l'arbre et la taille de chaque élément de l'arbre
+//Attention, hauteur sera utilisé pour représenter le nombre de rangs du sapin. C'est donc différent du nb de pixel (pour le calcul de la modification des coordonnées).
+int hauteur;
+int hauteurBranches;
+int hauteurTronc;
+
+//reset le haut du sapin pour ne pas avoir de décalage à chaque boucle du jeu
+void reset(){
+  x=xOrigin;
+  y=yOrigin;
+}
+
 void background(){
   int a=0;
   int b=-10;
@@ -26,9 +44,9 @@ void background(){
     green=green+1.12;
     blue=blue-0.33;
     for (int k=0;k<=100;k++){ //largeur du tronc
-      a=a+10;
       changeColor (red,green,blue);
       drawSquare (a,b,10);
+      a=a+10;
     }
     a=-10;
   }
@@ -99,25 +117,6 @@ void montagne(){
   reset();
 }
 
-//position du haut du sapin principal
-int xOrigin = 650;
-int yOrigin = 500;
-int x;
-int y;
-
-//reset le haut du sapin pour ne pas avoir de décalage à chaque boucle du jeu
-void reset(){
-  x=xOrigin;
-  y=yOrigin;
-}
-
-//definir la hauteur totale de l'arbre et la taille de chaque élément de l'arbre
-//Attention, hauteur sera utilisé pour représenter le nombre de rangs du sapin. C'est donc différent du nb de pixel (pour le calcul de la modification des coordonnées).
-int hauteur;
-int hauteurBranches;
-int hauteurTronc;
-
-
   //sous fonctions de l'arbre
 void appel (){
   hauteur=0;
@@ -139,32 +138,6 @@ void appel (){
     hauteurBranches = hauteur*0.8;
     hauteurTronc= hauteur*0.2;
 }
-
-//branches de l'arbre
-void corps (){   
-  for (int i=0;i<=hauteurBranches;i++){
-    y=y+10*i;
-    x=x-15-5*i;
-      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
-        x=x+10;
-          if (x%3==0){
-          changeColor (22,116,30);
-          drawSquare (x,y,10);
-          }
-          else {
-          changeColor ( 30, 132, 73 );
-          drawSquare (x,y,10);
-          }
-      }
-     reset();
-  }
-  reset();
-  guirlandes();
-  bougies();
-  boulesRouges();
-  boulesOranges();
-  drapeau();
-} 
 
 //a améliorer
 void guirlandes(){
@@ -273,8 +246,34 @@ void boulesOranges (){
 } 
 
 void drapeau(){
-  sprite (xOrigin-15,yOrigin-15, "snowflake.bmp");
+  sprite (xOrigin-15,yOrigin-40, "snowflake.bmp");
 }
+
+//branches de l'arbre
+void corps (){   
+  for (int i=0;i<=hauteurBranches;i++){
+    y=y+10*i;
+    x=x-15-5*i;
+      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+        x=x+10;
+          if (x%3==0){
+          changeColor (22,116,30);
+          drawSquare (x,y,10);
+          }
+          else {
+          changeColor ( 30, 132, 73 );
+          drawSquare (x,y,10);
+          }
+      }
+     reset();
+  }
+  reset();
+  guirlandes();
+  bougies();
+  boulesRouges();
+  boulesOranges();
+  drapeau();
+} 
 
 void tronc(){
   y=yOrigin+hauteurBranches*10;
