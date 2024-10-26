@@ -12,7 +12,7 @@
 // pour lancer ./main.out
 
 // Dans l'ordre créer montagnes puis sapin puis décoration
-//usleep a la fin des boucles de chaque colonne pour faire une "construction"
+//ajouter traineau qui se déplace dans le ciel
 
 //position du haut du sapin principal
 int xOrigin = 650;
@@ -25,6 +25,10 @@ int y;
 int hauteur;
 int hauteurBranches;
 int hauteurTronc;
+
+//position du traineau
+int xTraineau=-150;
+int yTraineau=300;
 
 //reset le haut du sapin pour ne pas avoir de décalage à chaque boucle du jeu
 void reset(){
@@ -53,68 +57,72 @@ void background(){
 }
 
 void montagne(){
-  int y;
-  int x;
+  int yMontagne;
+  int xMontagne;
   for (int i=0;i<=400;i++){
-    y=150+2*i;
-    x=500-i;
+    yMontagne=150+2*i;
+    xMontagne=500-i;
       if (i<=100){
         for (int j=0;j<=(400-(400-i));j++){
-            x=x+2;
+            xMontagne=xMontagne+2;
             changeColor ( 62, 74, 98 );
-            drawSquare (x,y,3);
+            drawSquare (xMontagne,yMontagne,3);
         }
-        reset();
       }
       else {
         for (int j=0;j<=(400-(400-i));j++){
-          x=x+2;
+          xMontagne=xMontagne+2;
           changeColor ( 23, 32, 42 );
-          drawSquare (x,y,3);
+          drawSquare (xMontagne,yMontagne,3);
         }
       }
   } 
-  reset();
   for (int i=0;i<=400;i++){
-    y=200+2*i;
-    x=200-i;
+    yMontagne=200+2*i;
+    xMontagne=200-i;
       if (i<=100){
         for (int j=0;j<=(400-(400-i));j++){
-            x=x+2;
+            xMontagne=xMontagne+2;
             changeColor (  86, 101, 115  );
-            drawSquare (x,y,3);
+            drawSquare (xMontagne,yMontagne,3);
         }
-        reset();
       }
       else {
         for (int j=0;j<=(400-(400-i));j++){
-          x=x+2;
+          xMontagne=xMontagne+2;
           changeColor (33,47,61);
-          drawSquare (x,y,3);
+          drawSquare (xMontagne,yMontagne,3);
         }
       }
   } 
-  reset();
   for (int i=0;i<=600;i++){
-    y=100+2*i;
-    x=750-i;
+    yMontagne=100+2*i;
+    xMontagne=750-i;
       if (i<=100){
         for (int j=0;j<=(600-(600-i));j++){
-            x=x+2;
+            xMontagne=xMontagne+2;
             changeColor ( 204, 209, 209 );
-            drawSquare (x,y,2);
+            drawSquare (xMontagne,yMontagne,2);
         }
-        reset();
       }
       else {
         for (int j=0;j<=(600-(600-i));j++){
-          x=x+2;
+          xMontagne=xMontagne+2;
           changeColor (  52, 73, 94 );
-          drawSquare (x,y,2);
+          drawSquare (xMontagne,yMontagne,2);
         }
       }
   } 
-  reset();
+}
+
+void traineau(){
+  xTraineau=xTraineau+20;
+  yTraineau=yTraineau-3;
+  sprite(xTraineau,yTraineau,"traineau.bmp");
+  if (xTraineau>1020){
+    xTraineau=-150;
+    yTraineau=300;
+  }
 }
 
   //sous fonctions de l'arbre
@@ -127,10 +135,10 @@ void appel (){
       scanf ("%d",&hauteur);
       } while (hauteur != 1 && hauteur != 2 && hauteur != 3);
     if (hauteur==1){
-      hauteur=10;
+      hauteur=30;
     }
     else if (hauteur==2){
-      hauteur =35;
+      hauteur =40;
     }
     else {
       hauteur=50;
@@ -141,31 +149,21 @@ void appel (){
 
 //a améliorer
 void guirlandes(){
-  for (int i=0;i<=hauteurBranches-1;i++){
-    y=y-5+10*i;
-    x=x-10-5*i;
-    if (i>10 & i%5==1){
-      x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
-      for (int j=0;j<=10;j++){ //guirlande bleue longue
-        x=x+4;
-        changeColor(6, 12, 199);
-        drawSquare(x,y,4);
-      }
-    }
-    reset();
-  }
-    for (int i=0;i<=hauteurBranches-1;i++){ //guirlande blanche
+    for (int i=0;i<=hauteurBranches;i++){
     y=y+10*i;
-    x=x-10-5*i;
-    if (i>20 & i%3==1){
-      x=x+20+rand()%5*i; //initialisation aléatoire de l'origine de la guirlande
-      for (int j=0;j<=20;j++){
-        x=x+4;
-        changeColor(225, 225, 230);
-        drawSquare(x,y,4);
+    x=x-5-5*i;
+      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i+1));j++){
+        x=x+10;
+          if (y%7==0){
+          changeColor (255,255,255);
+          drawCircle (x,y,5);
+          }
+          else if (y%7==2){
+          changeColor (255,0,0);
+          drawCircle (x,y,5);
+          }
       }
-    }
-    reset();
+     reset();
   }
 }
 
@@ -207,12 +205,12 @@ void bougies (){
   }
 } 
 
-void boulesRouges (){   
+void boules (){   
   for (int i=0;i<=hauteurBranches+1;i++){
     y=y-5+10*i;
-    x=x-10-5*i;
+    x=x-5*i;
     if (i%5==1){
-      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i+2));j++){
         x=x+10;
         if (rand()%15==1) {
           changeColor (220,11,60);
@@ -222,16 +220,8 @@ void boulesRouges (){
         }
       }
     }
-    reset();
-  }
-} 
-
-void boulesOranges (){   
-  for (int i=0;i<=hauteurBranches+1;i++){
-    y=y-5+10*i;
-    x=x-10-5*i;
-    if (i%3==1){
-      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i));j++){
+    else if (i%5==3){
+      for (int j=0;j<=(hauteurBranches-(hauteurBranches-i+2));j++){
         x=x+10;
         if (rand()%15==1) {
           changeColor (225,128,0);
@@ -244,6 +234,7 @@ void boulesOranges (){
     reset();
   }
 } 
+
 
 void drapeau(){
   sprite (xOrigin-15,yOrigin-40, "snowflake.bmp");
@@ -270,8 +261,7 @@ void corps (){
   reset();
   guirlandes();
   bougies();
-  boulesRouges();
-  boulesOranges();
+  boules();
   drapeau();
 } 
 
@@ -291,6 +281,7 @@ void tronc(){
 int arbre(){
   background();
   montagne();
+  traineau();
   corps();
   tronc();
 }
@@ -301,10 +292,6 @@ void init_game(){
 
 
 void drawGame(){
-    /* Ici je dessine mon jeu
-     * exemple position x, y modifiés dans KeyPressed() et utilisés pour
-     * pouvoir deplacer la figure à chaque boucle de gameLoop()
-     */
     clear();
     arbre();
     actualize();
@@ -381,11 +368,6 @@ void gameLoop() {
 }
 
 int main(){
-    /** @description 3 fonctions dans le main qui permettent de créer l'application et la maintenir ouverte :
-     *  init(...) : initialiser la SDL/ fenêtre
-     *  gameLoop() : boucle de jeu dans laquelle l'application reste ouverte
-     *  freeAndTerminate() : quitte le programme proprement
-     */
     appel();
     init(WINDOW_WIDTH, WINDOW_HEIGHT);
     srand (time (NULL));
