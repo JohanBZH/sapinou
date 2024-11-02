@@ -11,9 +11,6 @@
 // pour compiler : gcc main.c function.c -o main.out -lSDL2main -lSDL2
 // pour lancer ./main.out
 
-// Dans l'ordre créer montagnes puis sapin puis décoration
-//ajouter traineau qui se déplace dans le ciel
-
 //position du haut du sapin principal
 int xOrigin = 650;
 int yOrigin = 500;
@@ -147,7 +144,6 @@ void appel (){
     hauteurTronc= hauteur*0.2;
 }
 
-//a améliorer
 void guirlandes(){
     for (int i=0;i<=hauteurBranches;i++){
     y=y+10*i;
@@ -236,7 +232,7 @@ void boules (){
 } 
 
 
-void drapeau(){
+void etoile(){
   sprite (xOrigin-15,yOrigin-40, "snowflake.bmp");
 }
 
@@ -262,15 +258,15 @@ void corps (){
   guirlandes();
   bougies();
   boules();
-  drapeau();
+  etoile();
 } 
 
 void tronc(){
   y=yOrigin+hauteurBranches*10;
   for (int l=0;l<=(hauteurTronc);l++){ //hauteur du tronc
-    x=xOrigin-5-(hauteurTronc*10*0.3); // pour passer du nb de rang à la position de x en pixel, prendre en compte la largeur du carré (10px). Pour prendre en compte le fait d'aligner autour de xOrigin à partir de coordonnées dans le coin en haut gauche du carré : -5px soit 1/2 carré
+    x=xOrigin-(hauteurTronc*10*0.5); // pour passer du nb de rang à la position de x en pixel, prendre en compte la largeur du carré (10px). Pour prendre en compte le fait d'aligner autour de xOrigin à partir de coordonnées dans le coin en haut gauche du carré : -5px soit 1/2 carré
     y=y+10;
-    for (int k=0;k<=(hauteurTronc*0.3);k++){ //largeur du tronc
+    for (int k=0;k<=(hauteurTronc*0.5);k++){ //largeur du tronc
       x=x+10;
       changeColor (90,50,29);
       drawSquare (x,y,10);
@@ -278,7 +274,7 @@ void tronc(){
   }
 }
 
-int arbre(){
+void arbre(){
   background();
   montagne();
   traineau();
@@ -286,14 +282,50 @@ int arbre(){
   tronc();
 }
 
-void init_game(){
-    //mettre votre code d'initialisation ici
+//sapin avec les branches en courbe
+void arbre2(){
+  int xArbre2init=250;
+  int yArbre2init=520;
+  int xArbre2;
+  int yArbre2=yArbre2init;
+  int nbEtage=5;
+  int nbRang=6;
+  for (int i=1;i<=nbEtage;i++){
+    //décalage du début de chaque étage au 3/4 de l'étage précédent
+    yArbre2=yArbre2init+((3*i*5*nbRang)/4);
+      for (int k=0;k<=nbRang*i;k++){
+        yArbre2=yArbre2+5;
+        //incrémentation exponentielle de chaque rang pour créer la courbe
+        int decalage=(k*k)/4;
+        for (int j=0-decalage;j<=decalage;j++){
+          xArbre2=xArbre2init+j;
+
+          changeColor ( 26, 68, 31 );
+          drawSquare (xArbre2,yArbre2,5);              
+        }
+      }
+  }
+  sprite(xArbre2init,yArbre2init,"drapeau.bmp");
+  //tronc
+  int xTronc;
+  int yTronc=782;
+  for (int l=0;l<=4;l++){ //hauteur du tronc
+    xTronc=xArbre2init-28;
+    yTronc=yTronc+10;
+    for (int k=0;k<=3;k++){
+      xTronc=xTronc+10;
+      changeColor ( 45, 24, 10 );
+      drawSquare (xTronc,yTronc,10);
+    }
+  }
 }
+
 
 
 void drawGame(){
     clear();
     arbre();
+    arbre2();
     actualize();
     usleep(10000000 / FPS); // 60 images par seconde | 1000000 = 1 seconde
 }
@@ -371,7 +403,6 @@ int main(){
     appel();
     init(WINDOW_WIDTH, WINDOW_HEIGHT);
     srand (time (NULL));
-    init_game();
     gameLoop();
     printf("Fin du programme\n");
     freeAndTerminate();
